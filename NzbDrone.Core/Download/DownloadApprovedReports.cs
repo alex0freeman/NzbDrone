@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using NLog;
 using NzbDrone.Core.DecisionEngine;
-using NzbDrone.Core.Parser.Model;
 
 namespace NzbDrone.Core.Download
 {

@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using Microsoft.Owin.Hosting;
 using NLog;
 using NzbDrone.Common.Security;
 using NzbDrone.Core.Configuration;
 using NzbDrone.Host.Owin.MiddleWare;
 using Owin;
+using NzbDrone.Common;
 
 namespace NzbDrone.Host.Owin
 {
@@ -37,7 +39,24 @@ namespace NzbDrone.Host.Owin
 
             _logger.Info("starting server on {0}", url);
 
-            _host = WebApp.Start(OwinServiceProviderFactory.Create(), options, BuildApp);
+            try
+            {
+                _host = WebApp.Start(OwinServiceProviderFactory.Create(), options, BuildApp);
+            }
+            catch (Exception e)
+            {
+                var listenerException = e.SearchFor<HttpListenerException>();
+
+                if (listenerException != null)
+                {
+                    _userAlert.Alert(listenerException.Message  + " Make sure another instance of NzbDrone is not running.");
+                    throw new TerminateApplicationException();
+                }
+                else
+                {
+                    throw;
+                }
+            }
         }
 
         private void BuildApp(IAppBuilder appBuilder)

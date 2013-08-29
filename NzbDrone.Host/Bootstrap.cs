@@ -27,6 +27,8 @@ namespace NzbDrone.Host
 
             var container = MainAppContainerBuilder.BuildContainer(args);
 
+            container.Register(userAlert);
+
             DbFactory.RegisterDatabase(container);
             container.Resolve<Router>().Route();
 

@@ -12,6 +12,11 @@ namespace NzbDrone.Console
             try
             {
                 Bootstrap.Start(new StartupArguments(args), new ConsoleAlerts());
+
+                while (true)
+                {
+                    Thread.Sleep(10 * 60);
+                }
             }
             catch (TerminateApplicationException)
             {
@@ -20,11 +25,6 @@ namespace NzbDrone.Console
             {
                 System.Console.WriteLine(e.ToString());
                 System.Console.ReadLine();
-            }
-
-            while (true)
-            {
-                Thread.Sleep(10 * 60);
             }
         }
     }
