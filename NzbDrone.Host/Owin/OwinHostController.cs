@@ -49,7 +49,6 @@ namespace NzbDrone.Host.Owin
 
                 if (listenerException != null)
                 {
-                    _userAlert.Alert(listenerException.Message  + " Make sure another instance of NzbDrone is not running.");
                     throw new TerminateApplicationException();
                 }
                 else
